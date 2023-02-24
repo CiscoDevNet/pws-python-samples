@@ -1,0 +1,7 @@
+.vscode/settings.json
+*.pyc
+.env*
+!.env.example
+venv
+*.pem
+.DS_Store
