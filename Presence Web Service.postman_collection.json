@@ -1,0 +1,841 @@
+{
+	"info": {
+		"_postman_id": "5359eb6c-06ad-4ce9-a13a-d08337dcdf34",
+		"name": "Presence Web Service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12505680"
+	},
+	"item": [
+		{
+			"name": "Login App User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if ( responseCode.code != 201 ) {",
+							"    ",
+							"    tests[ \"LoginAppUser: failed\" ] = false;",
+							"    return;",
+							"}",
+							"jsonData = xml2Json( responseBody )",
+							"",
+							"tests[\"LoginAppUser: SUCCESS\"] = true",
+							"pm.collectionVariables.set( \"_app_user_session_key\", jsonData['session']['sessionKey'] );",
+							"console.log(pm.collectionVariables.get( \"_app_user_session_key\"))",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "<session>\n  <password>{{app_user_password}}</password>\n</session>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{cimp_address}}:8083/presence-service/users/{{app_user}}/sessions",
+					"protocol": "https",
+					"host": [
+						"{{cimp_address}}"
+					],
+					"port": "8083",
+					"path": [
+						"presence-service",
+						"users",
+						"{{app_user}}",
+						"sessions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login End User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if ( responseCode.code != 201 ) {",
+							"    ",
+							"    tests[ \"Login End User: failed\" ] = false;",
+							"    return;",
+							"}",
+							"jsonData = xml2Json( responseBody )",
+							"",
+							"tests[\"Login End User: SUCCESS\"] = true",
+							"",
+							"pm.collectionVariables.set( \"_end_user_session_key\", jsonData['session']['sessionKey'] );",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Presence-Session-Key",
+						"value": "{{_app_user_session_key}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{cimp_address}}:8083/presence-service/users/{{end_user}}/sessions",
+					"protocol": "https",
+					"host": [
+						"{{cimp_address}}"
+					],
+					"port": "8083",
+					"path": [
+						"presence-service",
+						"users",
+						"{{end_user}}",
+						"sessions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login End User (Forced)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if ( responseCode.code != 201 ) {",
+							"    ",
+							"    tests[ \"Login End User: failed\" ] = false;",
+							"    return;",
+							"}",
+							"jsonData = xml2Json( responseBody )",
+							"",
+							"tests[\"Login End User: SUCCESS\"] = true",
+							"",
+							"pm.collectionVariables.set( \"_end_user_session_key\", jsonData['session']['sessionKey'] );",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Presence-Session-Key",
+						"value": "{{_app_user_session_key}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{cimp_address}}:8083/presence-service/users/{{end_user}}/session",
+					"protocol": "https",
+					"host": [
+						"{{cimp_address}}"
+					],
+					"port": "8083",
+					"path": [
+						"presence-service",
+						"users",
+						"{{end_user}}",
+						"session"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Basic Presence",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Presence-Session-Key",
+						"value": "{{_end_user_session_key}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{cimp_address}}:8083/presence-service/users/{{end_user}}/presence/basic/contacts/{{end_user}}@{{xmpp_domain}}",
+					"protocol": "https",
+					"host": [
+						"{{cimp_address}}"
+					],
+					"port": "8083",
+					"path": [
+						"presence-service",
+						"users",
+						"{{end_user}}",
+						"presence",
+						"basic",
+						"contacts",
+						"{{end_user}}@{{xmpp_domain}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Rich Presence",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Presence-Session-Key",
+						"value": "{{_end_user_session_key}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{cimp_address}}:8083/presence-service/users/{{end_user}}/presence/rich/contacts/{{end_user}}@{{xmpp_domain}}",
+					"protocol": "https",
+					"host": [
+						"{{cimp_address}}"
+					],
+					"port": "8083",
+					"path": [
+						"presence-service",
+						"users",
+						"{{end_user}}",
+						"presence",
+						"rich",
+						"contacts",
+						"{{end_user}}@{{xmpp_domain}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Set Basic Presence -  AWAY",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Presence-Session-Key",
+						"value": "{{_end_user_session_key}}",
+						"type": "text"
+					},
+					{
+						"key": "Presence-Override",
+						"value": "true",
+						"type": "text"
+					},
+					{
+						"key": "Presence-Expiry",
+						"value": "3600",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\"?>\n<presence>AWAY</presence>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{cimp_address}}:8083/presence-service/users/{{end_user}}/presence/basic",
+					"protocol": "https",
+					"host": [
+						"{{cimp_address}}"
+					],
+					"port": "8083",
+					"path": [
+						"presence-service",
+						"users",
+						"{{end_user}}",
+						"presence",
+						"basic"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Set Basic Presence - DND",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Presence-Session-Key",
+						"value": "{{_end_user_session_key}}",
+						"type": "text"
+					},
+					{
+						"key": "Presence-Override",
+						"value": "true",
+						"type": "text"
+					},
+					{
+						"key": "Presence-Expiry",
+						"value": "3600",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\"?>\n<presence>DND</presence>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{cimp_address}}:8083/presence-service/users/{{end_user}}/presence/basic",
+					"protocol": "https",
+					"host": [
+						"{{cimp_address}}"
+					],
+					"port": "8083",
+					"path": [
+						"presence-service",
+						"users",
+						"{{end_user}}",
+						"presence",
+						"basic"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Set Basic Presence - AVAILABLE",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Presence-Session-Key",
+						"value": "{{_end_user_session_key}}",
+						"type": "text"
+					},
+					{
+						"key": "Presence-Override",
+						"value": "false",
+						"type": "text"
+					},
+					{
+						"key": "Presence-Expiry",
+						"value": "3600",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\"?>\n<presence>AVAILABLE</presence>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{cimp_address}}:8083/presence-service/users/{{end_user}}/presence/basic",
+					"protocol": "https",
+					"host": [
+						"{{cimp_address}}"
+					],
+					"port": "8083",
+					"path": [
+						"presence-service",
+						"users",
+						"{{end_user}}",
+						"presence",
+						"basic"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Set Rich Presence - Manual AWAY",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Presence-Session-Key",
+						"value": "{{_end_user_session_key}}",
+						"type": "text"
+					},
+					{
+						"key": "Presence-Override",
+						"value": "true",
+						"type": "text"
+					},
+					{
+						"key": "Presence-Expiry",
+						"value": "3600",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<presence entity=\"sip:{{end_user}}@{{xmpp_domain}}\">\n    <person id=\"{{end_user}}\">\n        <activities>\n            <away/>\n        </activities>\n        <class>manual</class>\n    </person>\n    <tuple id=\"pws-override\">\n        <source xmlns=\"urn:cisco:params:xml:ns:pidf:source\">Human</source>\n        <servcaps>\n            <text>true</text>\n        </servcaps>\n        <status>\n            <basic>open</basic>\n        </status>\n    </tuple>\n</presence>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{cimp_address}}:8083/presence-service/users/{{end_user}}/presence/rich",
+					"protocol": "https",
+					"host": [
+						"{{cimp_address}}"
+					],
+					"port": "8083",
+					"path": [
+						"presence-service",
+						"users",
+						"{{end_user}}",
+						"presence",
+						"rich"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Set Rich Presence - Manual Custom DND",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Presence-Session-Key",
+						"value": "{{_end_user_session_key}}",
+						"type": "text"
+					},
+					{
+						"key": "Presence-Override",
+						"value": "true",
+						"type": "text"
+					},
+					{
+						"key": "Presence-Expiry",
+						"value": "3600",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<presence entity=\"sip:{{end_user}}@{{xmpp_domain}}\">\n    <person id=\"{{end_user}}\">\n        <activities>\n            <dnd/>\n        </activities>\n        <class>manual</class>\n        <note>Custom DND</note>\n    </person>\n    <tuple id=\"pws-override\">\n        <source xmlns=\"urn:cisco:params:xml:ns:pidf:source\">Human</source>\n        <servcaps>\n            <text>true</text>\n        </servcaps>\n        <status>\n            <basic>open</basic>\n        </status>\n    </tuple>\n</presence>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{cimp_address}}:8083/presence-service/users/{{end_user}}/presence/rich",
+					"protocol": "https",
+					"host": [
+						"{{cimp_address}}"
+					],
+					"port": "8083",
+					"path": [
+						"presence-service",
+						"users",
+						"{{end_user}}",
+						"presence",
+						"rich"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Set Rich Presence - Manual AVAILABLE",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Presence-Session-Key",
+						"value": "{{_end_user_session_key}}",
+						"type": "text"
+					},
+					{
+						"key": "Presence-Override",
+						"value": "true",
+						"type": "text"
+					},
+					{
+						"key": "Presence-Expiry",
+						"value": "3600",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<presence entity=\"sip:{{end_user}}@{{xmpp_domain}}\">\n    <person id=\"{{end_user}}\">\n        <activities>\n            <available/>\n        </activities>\n        <class>manual</class>\n    </person>\n    <tuple id=\"pws-override\">\n        <source xmlns=\"urn:cisco:params:xml:ns:pidf:source\">Human</source>\n        <servcaps>\n            <text>true</text>\n        </servcaps>\n        <status>\n            <basic>open</basic>\n        </status>\n    </tuple>\n</presence>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{cimp_address}}:8083/presence-service/users/{{end_user}}/presence/rich",
+					"protocol": "https",
+					"host": [
+						"{{cimp_address}}"
+					],
+					"port": "8083",
+					"path": [
+						"presence-service",
+						"users",
+						"{{end_user}}",
+						"presence",
+						"rich"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Set Rich Presence - Manual CLEAR",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Presence-Session-Key",
+						"value": "{{_end_user_session_key}}",
+						"type": "text"
+					},
+					{
+						"key": "Presence-Override",
+						"value": "false",
+						"type": "text"
+					},
+					{
+						"key": "Presence-Expiry",
+						"value": "3600",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<presence entity=\"sip:{{end_user}}@{{xmpp_domain}}\">\n    <person id=\"{{end_user}}\">\n        <activities>\n            <clear/>\n        </activities>\n        <class>manual</class>\n    </person>\n    <tuple id=\"pws_override\">\n        <source xmlns=\"urn:cisco:params:xml:ns:pidf:source\">Presence Web Service</source>\n        <servcaps>\n            <text>true</text>\n        </servcaps>\n        <status>\n            <basic>open</basic>\n        </status>\n    </tuple>\n</presence>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{cimp_address}}:8083/presence-service/users/{{end_user}}/presence/rich",
+					"protocol": "https",
+					"host": [
+						"{{cimp_address}}"
+					],
+					"port": "8083",
+					"path": [
+						"presence-service",
+						"users",
+						"{{end_user}}",
+						"presence",
+						"rich"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Set Rich Presence - Device BUSY",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Presence-Session-Key",
+						"value": "{{_end_user_session_key}}",
+						"type": "text"
+					},
+					{
+						"key": "Presence-Override",
+						"value": "false",
+						"type": "text"
+					},
+					{
+						"key": "Presence-Expiry",
+						"value": "3600",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<presence entity=\"sip:{{end_user}}@{{xmpp_domain}}\">\n    <person id=\"{{end_user}}\">\n        <activities>\n            <busy/>\n        </activities>\n    </person>\n    <tuple id=\"my-device\">\n        <source xmlns=\"urn:cisco:params:xml:ns:pidf:source\">Presence Web Service</source>\n        <servcaps>\n            <text>true</text>\n        </servcaps>\n        <status>\n            <basic>open</basic>\n        </status>\n    </tuple>\n</presence>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{cimp_address}}:8083/presence-service/users/{{end_user}}/presence/rich",
+					"protocol": "https",
+					"host": [
+						"{{cimp_address}}"
+					],
+					"port": "8083",
+					"path": [
+						"presence-service",
+						"users",
+						"{{end_user}}",
+						"presence",
+						"rich"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Set Rich Presence - Device MEETING",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Presence-Session-Key",
+						"value": "{{_end_user_session_key}}",
+						"type": "text"
+					},
+					{
+						"key": "Presence-Override",
+						"value": "false",
+						"type": "text"
+					},
+					{
+						"key": "Presence-Expiry",
+						"value": "3600",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<presence entity=\"sip:{{end_user}}@{{xmpp_domain}}\">\n    <person id=\"{{end_user}}\">\n        <activities>\n            <busy/>\n            <meeting/>\n        </activities>\n    </person>\n    <tuple id=\"pws-override\">\n        <source xmlns=\"urn:cisco:params:xml:ns:pidf:source\">Presence Web Service</source>\n        <servcaps>\n            <text>true</text>\n        </servcaps>\n        <status>\n            <basic>open</basic>\n        </status>\n    </tuple>\n</presence>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{cimp_address}}:8083/presence-service/users/{{end_user}}/presence/rich",
+					"protocol": "https",
+					"host": [
+						"{{cimp_address}}"
+					],
+					"port": "8083",
+					"path": [
+						"presence-service",
+						"users",
+						"{{end_user}}",
+						"presence",
+						"rich"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Set Rich Presence - Device AVAILABLE",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Presence-Session-Key",
+						"value": "{{_end_user_session_key}}",
+						"type": "text"
+					},
+					{
+						"key": "Presence-Override",
+						"value": "false",
+						"type": "text"
+					},
+					{
+						"key": "Presence-Expiry",
+						"value": "3600",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<presence entity=\"sip:{{end_user}}@{{xmpp_domain}}\">\n    <person id=\"{{end_user}}\">\n        <activities>\n            <available/>\n        </activities>\n    </person>\n    <tuple id=\"pws-override\">\n        <source xmlns=\"urn:cisco:params:xml:ns:pidf:source\">Presence Web Service</source>\n        <servcaps>\n            <text>true</text>\n        </servcaps>\n        <status>\n            <basic>open</basic>\n        </status>\n    </tuple>\n</presence>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{cimp_address}}:8083/presence-service/users/{{end_user}}/presence/rich",
+					"protocol": "https",
+					"host": [
+						"{{cimp_address}}"
+					],
+					"port": "8083",
+					"path": [
+						"presence-service",
+						"users",
+						"{{end_user}}",
+						"presence",
+						"rich"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout End User",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Presence-Session-Key",
+						"value": "{{_end_user_session_key}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{cimp_address}}:8083/presence-service/users/{{end_user}}/session",
+					"protocol": "https",
+					"host": [
+						"{{cimp_address}}"
+					],
+					"port": "8083",
+					"path": [
+						"presence-service",
+						"users",
+						"{{end_user}}",
+						"session"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "xmpp_domain",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "cimp_address",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "app_user",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "app_user_password",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "end_user",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "_app_user_session_key",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "_end_user_session_key",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

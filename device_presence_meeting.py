@@ -52,7 +52,7 @@ urllib3.disable_warnings( urllib3.exceptions.InsecureRequestWarning )
 requests.packages.urllib3.disable_warnings( )
 
 # To enable SSL cert checking (recommended for production)
-# place the CIMP Tomcat certificate .pem file in the root of the project
+# place the "cup-ECDSA" certificate .pem file in the root of the project
 # and uncomment the line below
 
 # session.verify = 'changeme.pem'
@@ -112,7 +112,7 @@ input( 'Press Enter to continue...' )
 setPresenceHeaders = {
     'Presence-Session-Key': endUserSessionKey,
     'Presence-Override': 'false',
-    'Presence-Expiry': '86400'
+    'Presence-Expiry': '3600'
 }
 
 body = (

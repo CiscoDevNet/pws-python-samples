@@ -26,6 +26,9 @@ import requests
 import sys
 import urllib3
 from lxml import etree
+from pygments import highlight
+from pygments.lexers import XmlLexer
+from pygments.formatters import Terminal256Formatter
 
 # Edit .env file to specify your CIMP host/admin/end-user details
 import os
@@ -52,11 +55,11 @@ urllib3.disable_warnings( urllib3.exceptions.InsecureRequestWarning )
 requests.packages.urllib3.disable_warnings( )
 
 # To enable SSL cert checking (recommended for production)
-# place the CIMP Tomcat certificate .pem file in the root of the project
+# place the "cup-ECDSA" certificate .pem file in the root of the project
 # and uncomment the line below
 
 # session.verify = 'changeme.pem'
-# session.verify = 'sjds-cimp14.cisco.com-ECDSA.pem'
+session.verify = 'cup-ECDSA.pem'
 
 # Set global HTTP headers
 session.headers = { 
@@ -124,7 +127,10 @@ while True:
     # Use the lxml ElementTree object to parse the response XML
     # CIMP includes linefeeds in the output, remove these so the pretty print works
     message = etree.fromstring( resp.content, etree.XMLParser( remove_blank_text = True ) )
-    print( '\n', etree.tostring( message, pretty_print = True, encoding = 'unicode' ) )
+    message = etree.tostring( message, pretty_print = True, encoding = 'unicode' )
+
+    print( '\n', highlight( message, XmlLexer(), Terminal256Formatter() ) )
+    # print( '\n', etree.tostring( message, pretty_print = True, encoding = 'unicode' ) )
 
     done = input( 'Press Enter to continue ("Q" to quit)...' )
     if done.upper() == 'Q': break

@@ -14,6 +14,8 @@ The concepts and techniques shown can be extended to enable integration of IM&P 
 
 * `get_polled_rich_presence.py` - Demonstrates application user login, end-user proxy login, and retrieving rich presence information.
 
+In addition a [Postman collection]() is available for experimenting with PWS - edit the collection **Variables** to configure the collection.
+
 ## Getting started
 
 * Install Python 3
@@ -33,7 +35,7 @@ The concepts and techniques shown can be extended to enable integration of IM&P 
     pip install -r requirements.txt
     ```
 
-* Rename `.env.example` to `.env`, and edit it to specify your CIMP address, application user credentials and end user Id.
+* Rename `.env.example` to `.env`, and edit it to specify your CIMP address, application user credentials (requires CUCM 'Admin-3rd Party API' group access) and end user Id.
 
 * To run a specific sample, in Visual Studio Code open the sample `.py` file you want to run, then press `F5`, or open the Debugging panel and click the green 'Launch' arrow
 
