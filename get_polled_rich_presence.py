@@ -117,7 +117,7 @@ input( 'Press Enter to continue...' )
 while True:
     try:
         resp = session.get(
-            f'{ serviceUrl }/users/{ endUser }/presence/rich/contacts/{ endUser }@{ xmppDomain }',
+            f'{ serviceUrl }/users/{ endUser }/presence/rich/contacts/dstaudt@{ xmppDomain }',
             headers = { 'Presence-Session-Key': endUserSessionKey } )
         resp.raise_for_status()
     except Exception as err:

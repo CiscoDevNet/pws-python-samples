@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "5359eb6c-06ad-4ce9-a13a-d08337dcdf34",
-		"name": "Presence Web Service",
+		"name": "Presence Web Service - REST",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "12505680"
 	},
@@ -670,7 +670,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<presence entity=\"sip:{{end_user}}@{{xmpp_domain}}\">\n    <person id=\"{{end_user}}\">\n        <activities>\n            <busy/>\n            <meeting/>\n        </activities>\n    </person>\n    <tuple id=\"pws-override\">\n        <source xmlns=\"urn:cisco:params:xml:ns:pidf:source\">Presence Web Service</source>\n        <servcaps>\n            <text>true</text>\n        </servcaps>\n        <status>\n            <basic>open</basic>\n        </status>\n    </tuple>\n</presence>",
+					"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<presence entity=\"sip:{{end_user}}@{{xmpp_domain}}\">\n    <person id=\"{{end_user}}\">\n        <activities>\n            <busy/>\n            <meeting/>\n        </activities>\n    </person>\n    <tuple id=\"my-device\">\n        <source xmlns=\"urn:cisco:params:xml:ns:pidf:source\">Presence Web Service</source>\n        <servcaps>\n            <text>true</text>\n        </servcaps>\n        <status>\n            <basic>open</basic>\n        </status>\n    </tuple>\n</presence>",
 					"options": {
 						"raw": {
 							"language": "xml"
@@ -718,7 +718,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<presence entity=\"sip:{{end_user}}@{{xmpp_domain}}\">\n    <person id=\"{{end_user}}\">\n        <activities>\n            <available/>\n        </activities>\n    </person>\n    <tuple id=\"pws-override\">\n        <source xmlns=\"urn:cisco:params:xml:ns:pidf:source\">Presence Web Service</source>\n        <servcaps>\n            <text>true</text>\n        </servcaps>\n        <status>\n            <basic>open</basic>\n        </status>\n    </tuple>\n</presence>",
+					"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<presence entity=\"sip:{{end_user}}@{{xmpp_domain}}\">\n    <person id=\"{{end_user}}\">\n        <activities>\n            <available/>\n        </activities>\n    </person>\n    <tuple id=\"my-device\">\n        <source xmlns=\"urn:cisco:params:xml:ns:pidf:source\">Presence Web Service</source>\n        <servcaps>\n            <text>true</text>\n        </servcaps>\n        <status>\n            <basic>open</basic>\n        </status>\n    </tuple>\n</presence>",
 					"options": {
 						"raw": {
 							"language": "xml"

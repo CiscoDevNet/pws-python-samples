@@ -14,7 +14,7 @@ The concepts and techniques shown can be extended to enable integration of IM&P 
 
 * `get_polled_rich_presence.py` - Demonstrates application user login, end-user proxy login, and retrieving rich presence information.
 
-In addition a [Postman collection]() is available for experimenting with PWS - edit the collection **Variables** to configure the collection.
+In addition a [Postman collection](https://www.postman.com/collection/) is available for experimenting with PWS.  Edit the collection's **Variables** to configure the collection for use.
 
 ## Getting started
 
